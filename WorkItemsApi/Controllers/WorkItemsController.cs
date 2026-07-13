@@ -6,17 +6,27 @@ using WorkItemsApi.Services;
 
 namespace WorkItemsApi.Controllers
 {
+    /// <summary>
+    /// Controlador REST para gestionar operaciones con ítems de trabajo (tareas).
+    /// Expone endpoints para operaciones CRUD, asignación manual y asignación automática.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class WorkItemsController : ControllerBase
     {
         private readonly IWorkItemService _workItemService;
 
+        /// <summary>
+        /// Inicializa una nueva instancia del controlador de ítems de trabajo.
+        /// </summary>
         public WorkItemsController(IWorkItemService workItemService)
         {
             _workItemService = workItemService;
         }
 
+        /// <summary>
+        /// Obtiene la lista completa de todos los ítems de trabajo.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WorkItem>>> GetWorkItems()
         {
@@ -24,6 +34,9 @@ namespace WorkItemsApi.Controllers
             return Ok(items);
         }
 
+        /// <summary>
+        /// Obtiene los detalles de un ítem de trabajo específico por su ID.
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<WorkItem>> GetWorkItem(string id)
         {
@@ -35,6 +48,9 @@ namespace WorkItemsApi.Controllers
             return Ok(item);
         }
 
+        /// <summary>
+        /// Crea un nuevo ítem de trabajo (tarea).
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<WorkItem>> CreateWorkItem(WorkItem item)
         {
@@ -42,6 +58,9 @@ namespace WorkItemsApi.Controllers
             return CreatedAtAction(nameof(GetWorkItem), new { id = created.Id }, created);
         }
 
+        /// <summary>
+        /// Actualiza la información de un ítem de trabajo existente.
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateWorkItem(string id, WorkItem item)
         {
@@ -59,6 +78,9 @@ namespace WorkItemsApi.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Elimina un ítem de trabajo de la base de datos.
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteWorkItem(string id)
         {
@@ -71,11 +93,17 @@ namespace WorkItemsApi.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Payload para recibir el identificador del usuario al realizar asignaciones.
+        /// </summary>
         public class AssignPayload
         {
             public string UserId { get; set; }
         }
 
+        /// <summary>
+        /// Asigna manualmente un ítem de trabajo a un usuario específico.
+        /// </summary>
         [HttpPost("{id}/assign-to-user")]
         public async Task<IActionResult> AssignWorkItem(string id, [FromBody] AssignPayload payload)
         {
@@ -84,12 +112,16 @@ namespace WorkItemsApi.Controllers
             var success = await _workItemService.AssignWorkItemAsync(id, targetUserId);
             if (!success)
             {
+                // Traducido
                 return NotFound($"No se encontró la tarea con ID {id}.");
             }
 
             return NoContent();
         }
 
+        /// <summary>
+        /// Realiza la asignación automática de una tarea utilizando el motor de reglas de negocio.
+        /// </summary>
         [HttpPost("{id}/auto-assign")]
         public async Task<ActionResult<WorkItem>> AutoAssignWorkItem(string id)
         {
@@ -107,6 +139,9 @@ namespace WorkItemsApi.Controllers
             return Ok(item);
         }
 
+        /// <summary>
+        /// Intenta auto-asignar todas las tareas que están actualmente pendientes y sin asignar.
+        /// </summary>
         [HttpPost("auto-assign-all")]
         public async Task<ActionResult<object>> AutoAssignAll()
         {
@@ -114,6 +149,9 @@ namespace WorkItemsApi.Controllers
             return Ok(new { AssignedCount = count });
         }
 
+        /// <summary>
+        /// Obtiene todas las tareas asignadas a un usuario específico, ordenadas por prioridad de cola de trabajo (SortOrder).
+        /// </summary>
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<WorkItem>>> GetWorkItemsByUser(string userId)
         {

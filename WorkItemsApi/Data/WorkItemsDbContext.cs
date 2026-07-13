@@ -5,12 +5,21 @@ using WorkItemsApi.Models;
 
 namespace WorkItemsApi.Data
 {
+    /// <summary>
+    /// Contexto de Entity Framework Core para la base de datos de tareas/ítems de trabajo (SQLite).
+    /// </summary>
     public class WorkItemsDbContext : DbContext
     {
+        /// <summary>
+        /// Inicializa el contexto de la base de datos de tareas.
+        /// </summary>
         public WorkItemsDbContext(DbContextOptions<WorkItemsDbContext> options) : base(options)
         {
         }
 
+        /// <summary>
+        /// Tabla de ítems de trabajo (tareas) en la base de datos.
+        /// </summary>
         public DbSet<WorkItem> WorkItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

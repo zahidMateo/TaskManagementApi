@@ -18,16 +18,25 @@ namespace UserManagementApi.Services
             _workItemsClient = workItemsClient;
         }
 
+        /// <summary>
+        /// Obtiene todos los usuarios de la base de datos.
+        /// </summary>
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _context.Users.ToListAsync();
         }
 
+        /// <summary>
+        /// Obtiene un usuario específico por su ID.
+        /// </summary>
         public async Task<User?> GetUserByIdAsync(string id)
         {
             return await _context.Users.FindAsync(id);
         }
 
+        /// <summary>
+        /// Crea un nuevo usuario y lo guarda en la base de datos.
+        /// </summary>
         public async Task<User> CreateUserAsync(User user)
         {
             if (string.IsNullOrEmpty(user.Id))
@@ -39,6 +48,9 @@ namespace UserManagementApi.Services
             return user;
         }
 
+        /// <summary>
+        /// Actualiza la información de un usuario existente en la base de datos.
+        /// </summary>
         public async Task<bool> UpdateUserAsync(User user)
         {
             var existingUser = await _context.Users.FindAsync(user.Id);
@@ -56,6 +68,9 @@ namespace UserManagementApi.Services
             return true;
         }
 
+        /// <summary>
+        /// Elimina un usuario por su ID de la base de datos.
+        /// </summary>
         public async Task<bool> DeleteUserAsync(string id)
         {
             var user = await _context.Users.FindAsync(id);

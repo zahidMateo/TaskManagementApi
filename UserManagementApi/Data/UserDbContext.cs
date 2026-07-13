@@ -3,12 +3,21 @@ using UserManagementApi.Models;
 
 namespace UserManagementApi.Data
 {
+    /// <summary>
+    /// Contexto de Entity Framework Core para la base de datos de usuarios (SQLite).
+    /// </summary>
     public class UserDbContext : DbContext
     {
+        /// <summary>
+        /// Inicializa el contexto de la base de datos de usuarios.
+        /// </summary>
         public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
         {
         }
 
+        /// <summary>
+        /// Tabla de usuarios en la base de datos.
+        /// </summary>
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

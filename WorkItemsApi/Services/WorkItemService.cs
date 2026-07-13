@@ -26,16 +26,25 @@ namespace WorkItemsApi.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Obtiene todas las tareas registradas en el sistema.
+        /// </summary>
         public async Task<IEnumerable<WorkItem>> GetAllWorkItemsAsync()
         {
             return await _context.WorkItems.ToListAsync();
         }
 
+        /// <summary>
+        /// Obtiene una tarea específica por su ID.
+        /// </summary>
         public async Task<WorkItem?> GetWorkItemByIdAsync(string id)
         {
             return await _context.WorkItems.FindAsync(id);
         }
 
+        /// <summary>
+        /// Crea una nueva tarea y reordena la cola de su desarrollador asignado.
+        /// </summary>
         public async Task<WorkItem> CreateWorkItemAsync(WorkItem item)
         {
             if (string.IsNullOrEmpty(item.Id))
@@ -53,6 +62,9 @@ namespace WorkItemsApi.Services
             return item;
         }
 
+        /// <summary>
+        /// Actualiza la información de una tarea y reorganiza las colas de los usuarios afectados.
+        /// </summary>
         public async Task<bool> UpdateWorkItemAsync(WorkItem item)
         {
             var existing = await _context.WorkItems.FindAsync(item.Id);
@@ -85,6 +97,9 @@ namespace WorkItemsApi.Services
             return true;
         }
 
+        /// <summary>
+        /// Elimina una tarea del sistema y reordena la cola de pendientes del desarrollador afectado.
+        /// </summary>
         public async Task<bool> DeleteWorkItemAsync(string id)
         {
             var item = await _context.WorkItems.FindAsync(id);
@@ -105,6 +120,9 @@ namespace WorkItemsApi.Services
             return true;
         }
 
+        /// <summary>
+        /// Asigna una tarea de forma manual a un usuario y recalcula los ordenamientos de colas de pendientes.
+        /// </summary>
         public async Task<bool> AssignWorkItemAsync(string itemId, string assignedUserId)
         {
             var item = await _context.WorkItems.FindAsync(itemId);
@@ -142,6 +160,9 @@ namespace WorkItemsApi.Services
             return true;
         }
 
+        /// <summary>
+        /// Auto-asigna de manera inteligente una tarea específica a un usuario no saturado aplicando las reglas.
+        /// </summary>
         public async Task<WorkItem?> AutoAssignWorkItemAsync(string itemId)
         {
             var item = await _context.WorkItems.FindAsync(itemId);
@@ -170,6 +191,9 @@ namespace WorkItemsApi.Services
             return item;
         }
 
+        /// <summary>
+        /// Auto-asigna todas las tareas huérfanas o sin asignar registradas en el sistema.
+        /// </summary>
         public async Task<int> AutoAssignAllUnassignedAsync()
         {
             var unassignedItems = await _context.WorkItems
@@ -194,6 +218,9 @@ namespace WorkItemsApi.Services
             return count;
         }
 
+        /// <summary>
+        /// Obtiene todas las tareas asignadas a un usuario en específico, ordenadas de forma prioritaria por SortOrder.
+        /// </summary>
         public async Task<IEnumerable<WorkItem>> GetWorkItemsByUserIdAsync(string userId)
         {
             return await _context.WorkItems

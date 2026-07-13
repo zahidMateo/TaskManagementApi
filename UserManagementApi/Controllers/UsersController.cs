@@ -6,17 +6,27 @@ using UserManagementApi.Services;
 
 namespace UserManagementApi.Controllers
 {
+    /// <summary>
+    /// Controlador REST para gestionar operaciones con usuarios.
+    /// Expone endpoints para operaciones CRUD y cálculo de saturación.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
 
+        /// <summary>
+        /// Inicializa una nueva instancia del controlador de usuarios.
+        /// </summary>
         public UsersController(IUserService userService)
         {
             _userService = userService;
         }
 
+        /// <summary>
+        /// Obtiene la lista completa de todos los usuarios registrados.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
@@ -24,6 +34,9 @@ namespace UserManagementApi.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Obtiene los detalles de un usuario específico por su ID.
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(string id)
         {
@@ -35,6 +48,9 @@ namespace UserManagementApi.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Crea y registra un nuevo usuario en la base de datos.
+        /// </summary>
         [HttpPost]
         public async Task<ActionResult<User>> CreateUser(User user)
         {
@@ -42,6 +58,9 @@ namespace UserManagementApi.Controllers
             return CreatedAtAction(nameof(GetUser), new { id = createdUser.Id }, createdUser);
         }
 
+        /// <summary>
+        /// Actualiza la información de un usuario existente.
+        /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(string id, User user)
         {
@@ -59,6 +78,9 @@ namespace UserManagementApi.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Elimina un usuario por su ID de la base de datos.
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(string id)
         {

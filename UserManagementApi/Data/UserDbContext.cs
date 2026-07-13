@@ -15,7 +15,7 @@ namespace UserManagementApi.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Seed Users A and B to match the frontend scenario
+            // Semillar los usuarios A y B para coincidir con el escenario del frontend
             modelBuilder.Entity<User>().HasData(
                 new User
                 {

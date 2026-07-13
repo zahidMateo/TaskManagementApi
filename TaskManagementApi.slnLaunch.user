@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "UserManagementApi\\UserManagementApi.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "WorkItemsApi\\WorkItemsApi.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

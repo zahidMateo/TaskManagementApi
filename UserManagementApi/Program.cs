@@ -4,7 +4,7 @@ using UserManagementApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Agregar servicios al contenedor.
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -24,14 +24,14 @@ builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(options 
     };
 });
 
-// Add SQLite Database
+// Agregar base de datos SQLite.
 builder.Services.AddDbContext<UserDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=users.db"));
 
-// Register Services
+// Registrar servicios.
 builder.Services.AddScoped<IUserService, UserService>();
 
-// Configure CORS to allow frontend connections
+// Configurar CORS para permitir conexiones desde el frontend.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -48,14 +48,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Automatically create and seed database
+// Crear y semillar automáticamente la base de datos.
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
         var context = services.GetRequiredService<UserDbContext>();
-        context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
     }
     catch (Exception ex)
@@ -65,7 +64,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-// Configure the HTTP request pipeline.
+// Configurar el pipeline de solicitudes HTTP.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

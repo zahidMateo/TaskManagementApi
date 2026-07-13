@@ -1,0 +1,157 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{85CE0C90-194E-4C0C-918D-FB47E95E2912}|WorkItemsApi\\WorkItemsApi.csproj|c:\\users\\mmale\\source\\repos\\taskmanagementapi\\workitemsapi\\data\\workitemsdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85CE0C90-194E-4C0C-918D-FB47E95E2912}|WorkItemsApi\\WorkItemsApi.csproj|solutionrelative:workitemsapi\\data\\workitemsdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85CE0C90-194E-4C0C-918D-FB47E95E2912}|WorkItemsApi\\WorkItemsApi.csproj|c:\\users\\mmale\\source\\repos\\taskmanagementapi\\workitemsapi\\controllers\\workitemscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85CE0C90-194E-4C0C-918D-FB47E95E2912}|WorkItemsApi\\WorkItemsApi.csproj|solutionrelative:workitemsapi\\controllers\\workitemscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|c:\\users\\mmale\\source\\repos\\taskmanagementapi\\usermanagementapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|solutionrelative:usermanagementapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|c:\\users\\mmale\\source\\repos\\taskmanagementapi\\usermanagementapi\\services\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|solutionrelative:usermanagementapi\\services\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|c:\\users\\mmale\\source\\repos\\taskmanagementapi\\usermanagementapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|solutionrelative:usermanagementapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|c:\\users\\mmale\\source\\repos\\taskmanagementapi\\usermanagementapi\\data\\userdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|solutionrelative:usermanagementapi\\data\\userdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|c:\\users\\mmale\\source\\repos\\taskmanagementapi\\usermanagementapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|solutionrelative:usermanagementapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|c:\\users\\mmale\\source\\repos\\taskmanagementapi\\usermanagementapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D05E893-AA12-4660-8095-568DBDCEC09C}|UserManagementApi\\UserManagementApi.csproj|solutionrelative:usermanagementapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WorkItemsDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\WorkItemsApi\\Data\\WorkItemsDbContext.cs",
+              "RelativeDocumentMoniker": "WorkItemsApi\\Data\\WorkItemsDbContext.cs",
+              "ToolTip": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\WorkItemsApi\\Data\\WorkItemsDbContext.cs",
+              "RelativeToolTip": "WorkItemsApi\\Data\\WorkItemsDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T15:00:27.052Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WorkItemsController.cs",
+              "DocumentMoniker": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\WorkItemsApi\\Controllers\\WorkItemsController.cs",
+              "RelativeDocumentMoniker": "WorkItemsApi\\Controllers\\WorkItemsController.cs",
+              "ToolTip": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\WorkItemsApi\\Controllers\\WorkItemsController.cs",
+              "RelativeToolTip": "WorkItemsApi\\Controllers\\WorkItemsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T15:00:25.262Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "UserManagementApi\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Services\\UserService.cs",
+              "RelativeToolTip": "UserManagementApi\\Services\\UserService.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T15:00:16.204Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Services\\IUserService.cs",
+              "RelativeDocumentMoniker": "UserManagementApi\\Services\\IUserService.cs",
+              "ToolTip": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Services\\IUserService.cs",
+              "RelativeToolTip": "UserManagementApi\\Services\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T15:00:14.568Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Program.cs",
+              "RelativeDocumentMoniker": "UserManagementApi\\Program.cs",
+              "ToolTip": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Program.cs",
+              "RelativeToolTip": "UserManagementApi\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T14:53:53.847Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Models\\User.cs",
+              "RelativeDocumentMoniker": "UserManagementApi\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Models\\User.cs",
+              "RelativeToolTip": "UserManagementApi\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T14:53:44.03Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Data\\UserDbContext.cs",
+              "RelativeDocumentMoniker": "UserManagementApi\\Data\\UserDbContext.cs",
+              "ToolTip": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Data\\UserDbContext.cs",
+              "RelativeToolTip": "UserManagementApi\\Data\\UserDbContext.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T14:53:29.259Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "UserManagementApi\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\mmale\\source\\repos\\TaskManagementApi\\UserManagementApi\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "UserManagementApi\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-13T14:53:25.333Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

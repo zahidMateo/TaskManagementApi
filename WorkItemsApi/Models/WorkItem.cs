@@ -12,5 +12,6 @@ namespace WorkItemsApi.Models
         public DateTime DueDate { get; set; }
         public WorkItemStatus Status { get; set; } = WorkItemStatus.Pending;
         public string AssignedUserId { get; set; }
+        public int SortOrder { get; set; } = 0;
     }
 }

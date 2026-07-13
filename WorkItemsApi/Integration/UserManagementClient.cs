@@ -53,5 +53,24 @@ namespace WorkItemsApi.Integration
                 return null;
             }
         }
+
+        public async Task<UserSaturationDto?> GetUserSaturationAsync(string userId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/users/{userId}/saturation");
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
+                }
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<UserSaturationDto>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error fetching user saturation for {UserId} from UserManagementApi", userId);
+                return null;
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WorkItemsApi.Data;
 using WorkItemsApi.Models;
+using WorkItemsApi.Enums;
 
 namespace WorkItemsApi.Services
 {
@@ -43,6 +44,12 @@ namespace WorkItemsApi.Services
             }
             _context.WorkItems.Add(item);
             await _context.SaveChangesAsync();
+
+            if (!string.IsNullOrEmpty(item.AssignedUserId))
+            {
+                await UpdatePendingItemsOrderForUserAsync(item.AssignedUserId);
+            }
+
             return item;
         }
 
@@ -54,6 +61,8 @@ namespace WorkItemsApi.Services
                 return false;
             }
 
+            var oldUserId = existing.AssignedUserId;
+
             existing.Title = item.Title;
             existing.Description = item.Description;
             existing.IsRelevant = item.IsRelevant;
@@ -63,6 +72,16 @@ namespace WorkItemsApi.Services
 
             _context.WorkItems.Update(existing);
             await _context.SaveChangesAsync();
+
+            if (!string.IsNullOrEmpty(item.AssignedUserId))
+            {
+                await UpdatePendingItemsOrderForUserAsync(item.AssignedUserId);
+            }
+            if (!string.IsNullOrEmpty(oldUserId) && oldUserId != item.AssignedUserId)
+            {
+                await UpdatePendingItemsOrderForUserAsync(oldUserId);
+            }
+
             return true;
         }
 
@@ -74,8 +93,15 @@ namespace WorkItemsApi.Services
                 return false;
             }
 
+            var oldUserId = item.AssignedUserId;
             _context.WorkItems.Remove(item);
             await _context.SaveChangesAsync();
+
+            if (!string.IsNullOrEmpty(oldUserId))
+            {
+                await UpdatePendingItemsOrderForUserAsync(oldUserId);
+            }
+
             return true;
         }
 
@@ -87,7 +113,9 @@ namespace WorkItemsApi.Services
                 return false;
             }
 
+            var oldUserId = item.AssignedUserId;
             item.AssignedUserId = assignedUserId;
+            
             // Set status to Assigned if a user is assigned and status was Pending
             if (!string.IsNullOrEmpty(assignedUserId) && item.Status == Enums.WorkItemStatus.Pending)
             {
@@ -101,6 +129,16 @@ namespace WorkItemsApi.Services
 
             _context.WorkItems.Update(item);
             await _context.SaveChangesAsync();
+
+            if (!string.IsNullOrEmpty(assignedUserId))
+            {
+                await UpdatePendingItemsOrderForUserAsync(assignedUserId);
+            }
+            if (!string.IsNullOrEmpty(oldUserId) && oldUserId != assignedUserId)
+            {
+                await UpdatePendingItemsOrderForUserAsync(oldUserId);
+            }
+
             return true;
         }
 
@@ -120,6 +158,8 @@ namespace WorkItemsApi.Services
                 item.Status = Enums.WorkItemStatus.Assigned;
                 _context.WorkItems.Update(item);
                 await _context.SaveChangesAsync();
+                
+                await UpdatePendingItemsOrderForUserAsync(userId);
                 _logger.LogInformation("Successfully auto-assigned WorkItem {ItemId} to User {UserId}.", itemId, userId);
             }
             else
@@ -158,7 +198,38 @@ namespace WorkItemsApi.Services
         {
             return await _context.WorkItems
                 .Where(w => w.AssignedUserId == userId)
+                .OrderBy(w => w.SortOrder)
                 .ToListAsync();
+        }
+
+        /// <summary>
+        /// Desarrolla una función que, después de cada asignación, mantenga ordenada la lista de ítems
+        /// pendientes de cada usuario, siguiendo un criterio que priorice relevancia y fechas de entrega.
+        /// </summary>
+        public async Task UpdatePendingItemsOrderForUserAsync(string userId)
+        {
+            if (string.IsNullOrEmpty(userId)) return;
+
+            // Obtener todos los ítems asignados al usuario que están pendientes (no Completados)
+            var pendingItems = await _context.WorkItems
+                .Where(w => w.AssignedUserId == userId && w.Status != WorkItemStatus.Completed)
+                .ToListAsync();
+
+            // Ordenar primero por Relevancia (primero las altamente relevantes) y luego por Fecha de Vencimiento (más cercana primero)
+            var sortedItems = pendingItems
+                .OrderByDescending(w => w.IsRelevant)
+                .ThenBy(w => w.DueDate)
+                .ToList();
+
+            // Asignar el orden secuencial de clasificación
+            for (int i = 0; i < sortedItems.Count; i++)
+            {
+                sortedItems[i].SortOrder = i + 1;
+                _context.WorkItems.Update(sortedItems[i]);
+            }
+
+            await _context.SaveChangesAsync();
+            _logger.LogInformation("Se ha reordenado la lista de tareas pendientes para el usuario {UserId}. Total tareas ordenadas: {Count}.", userId, sortedItems.Count);
         }
     }
 }

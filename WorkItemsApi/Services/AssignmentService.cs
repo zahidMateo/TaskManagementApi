@@ -11,6 +11,10 @@ using WorkItemsApi.Models;
 
 namespace WorkItemsApi.Services
 {
+    /// <summary>
+    /// Servicio encargado de ejecutar el motor de asignaciones automáticas de ítems de trabajo.
+    /// Aplica las reglas de negocio de fecha próxima y de relevancia, excluyendo usuarios saturados.
+    /// </summary>
     public class AssignmentService : IAssignmentService
     {
         private readonly IUserManagementClient _userClient;
@@ -30,6 +34,10 @@ namespace WorkItemsApi.Services
             _logger = logger;
         }
 
+        /// <summary>
+        /// Determina el usuario óptimo para asignar una tarea basándose en su relevancia, fecha de entrega
+        /// y nivel de carga actual, asegurando no asignar tareas a usuarios saturados.
+        /// </summary>
         public async Task<string?> DetermineUserForAssignmentAsync(WorkItem item)
         {
             // 1. Get all available users from the User Management microservice
@@ -54,65 +62,79 @@ namespace WorkItemsApi.Services
             _logger.LogInformation("Analyzing assignment for WorkItem '{Title}' (Relevant: {IsRelevant}, DueDate: {DueDate:yyyy-MM-dd}). IsCloseToExpiry: {IsCloseToExpiry} (Threshold: {Threshold} days)",
                 item.Title, item.IsRelevant, item.DueDate, isCloseToExpiry, closeToExpiryDays);
 
-            // 4. Calculate workloads for each user
+            // 4. Calcular cargas de trabajo para cada usuario
             var userWorkloads = users.Select(user =>
             {
                 var userActiveItems = activeItems.Where(wi => wi.AssignedUserId == user.Id).ToList();
-                int totalActiveCount = userActiveItems.Count; // Pending + Assigned
+                int totalActiveCount = userActiveItems.Count; // Pendientes + Asignados
                 int pendingCount = userActiveItems.Count(wi => wi.Status == WorkItemStatus.Pending);
+                int highlyRelevantActiveCount = userActiveItems.Count(wi => wi.IsRelevant);
+                
+                bool isSaturated = highlyRelevantActiveCount > 3;
 
-                _logger.LogInformation("User '{UserName}' ({UserId}): TotalActive={TotalActive}, Pending={Pending}",
-                    user.Name, user.Id, totalActiveCount, pendingCount);
+                _logger.LogInformation("Usuario '{UserName}' ({UserId}): TotalActivos={TotalActive}, Pendientes={Pending}, RelevantesActivos={RelevantesActivos}, ¿Saturado?: {IsSaturated}",
+                    user.Name, user.Id, totalActiveCount, pendingCount, highlyRelevantActiveCount, isSaturated);
 
                 return new
                 {
                     User = user,
                     TotalActiveCount = totalActiveCount,
-                    PendingCount = pendingCount
+                    PendingCount = pendingCount,
+                    HighlyRelevantActiveCount = highlyRelevantActiveCount,
+                    IsSaturated = isSaturated
                 };
             }).ToList();
 
-            // 5. Apply the assignment rules
+            // Filtrar candidatos que NO estén saturados (ningún usuario con > 3 tareas relevantes activas)
+            var candidates = userWorkloads.Where(uw => !uw.IsSaturated).ToList();
+
+            if (!candidates.Any())
+            {
+                _logger.LogWarning("Todos los usuarios disponibles están saturados (> 3 tareas altamente relevantes activas). No se puede realizar la asignación.");
+                return null;
+            }
+
+            // 5. Aplicar las reglas de asignación sobre los candidatos no saturados
             string selectedUserId;
 
             if (isCloseToExpiry)
             {
-                // RULE 1: Close to expiry -> Assign to the user with the fewest work items, regardless of relevance.
-                _logger.LogInformation("Applying Rule 1 (Close to Expiry): Assigning based on minimum total active work items.");
-                var sorted = userWorkloads
+                // REGLA 1: Entrega próxima -> Asignar al usuario con menos tareas en total, independientemente de relevancia.
+                _logger.LogInformation("Aplicando Regla 1 (Fecha Próxima): Asignando al candidato con menos tareas activas totales.");
+                var sorted = candidates
                     .OrderBy(uw => uw.TotalActiveCount)
                     .ThenBy(uw => uw.PendingCount)
                     .ThenBy(uw => uw.User.Name)
                     .First();
 
                 selectedUserId = sorted.User.Id;
-                _logger.LogInformation("Selected User: '{UserName}' with {TotalActiveCount} active items.", sorted.User.Name, sorted.TotalActiveCount);
+                _logger.LogInformation("Usuario seleccionado: '{UserName}' con {TotalActiveCount} tareas activas.", sorted.User.Name, sorted.TotalActiveCount);
             }
             else if (item.IsRelevant)
             {
-                // RULE 2: Relevant (and not close to expiry) -> Assign to user with the shortest backlog of pending items.
-                _logger.LogInformation("Applying Rule 2 (Relevant): Assigning based on minimum pending items.");
-                var sorted = userWorkloads
+                // REGLA 2: Ítem relevante -> Asignar al candidato con menor backlog de ítems pendientes.
+                _logger.LogInformation("Aplicando Regla 2 (Relevante): Asignando al candidato con menos tareas pendientes.");
+                var sorted = candidates
                     .OrderBy(uw => uw.PendingCount)
                     .ThenBy(uw => uw.TotalActiveCount)
                     .ThenBy(uw => uw.User.Name)
                     .First();
 
                 selectedUserId = sorted.User.Id;
-                _logger.LogInformation("Selected User: '{UserName}' with {PendingCount} pending items.", sorted.User.Name, sorted.PendingCount);
+                _logger.LogInformation("Usuario seleccionado: '{UserName}' con {PendingCount} tareas pendientes.", sorted.User.Name, sorted.PendingCount);
             }
             else
             {
-                // RULE 3: Normal items -> Load balance by assigning to the user with the fewest total active tasks
-                _logger.LogInformation("Applying Rule 3 (Normal Assignment): Assigning based on total active tasks.");
-                var sorted = userWorkloads
+                // REGLA 3: Normal -> Asignar al candidato con menos tareas en total.
+                _logger.LogInformation("Aplicando Regla 3 (Asignación Normal): Balanceo de carga por total de tareas.");
+                var sorted = candidates
                     .OrderBy(uw => uw.TotalActiveCount)
                     .ThenBy(uw => uw.PendingCount)
                     .ThenBy(uw => uw.User.Name)
                     .First();
 
                 selectedUserId = sorted.User.Id;
-                _logger.LogInformation("Selected User: '{UserName}' with {TotalActiveCount} active items.", sorted.User.Name, sorted.TotalActiveCount);
+                _logger.LogInformation("Usuario seleccionado: '{UserName}' con {TotalActiveCount} tareas activas.", sorted.User.Name, sorted.TotalActiveCount);
             }
 
             return selectedUserId;

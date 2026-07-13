@@ -70,5 +70,29 @@ namespace UserManagementApi.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Obtiene el estado de saturación de un usuario específico.
+        /// Un usuario está saturado si tiene más de 3 tareas altamente relevantes activas.
+        /// </summary>
+        [HttpGet("{id}/saturation")]
+        public async Task<IActionResult> GetUserSaturation(string id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound("El usuario no existe.");
+            }
+
+            var isSaturated = await _userService.IsUserSaturatedAsync(id);
+            var count = await _userService.GetActiveHighlyRelevantTaskCountAsync(id);
+
+            return Ok(new
+            {
+                UserId = id,
+                IsSaturated = isSaturated,
+                ActiveHighlyRelevantCount = count
+            });
+        }
     }
 }

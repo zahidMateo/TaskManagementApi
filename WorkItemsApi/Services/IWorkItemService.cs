@@ -15,5 +15,6 @@ namespace WorkItemsApi.Services
         Task<WorkItem?> AutoAssignWorkItemAsync(string itemId);
         Task<int> AutoAssignAllUnassignedAsync();
         Task<IEnumerable<WorkItem>> GetWorkItemsByUserIdAsync(string userId);
+        Task UpdatePendingItemsOrderForUserAsync(string userId);
     }
 }

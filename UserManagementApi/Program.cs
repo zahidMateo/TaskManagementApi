@@ -31,6 +31,13 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 // Registrar servicios.
 builder.Services.AddScoped<IUserService, UserService>();
 
+// Registrar HttpClient tipado para WorkItemsApi (requerido para evaluar saturación de usuarios).
+builder.Services.AddHttpClient<UserManagementApi.Integration.IWorkItemsClient, UserManagementApi.Integration.WorkItemsClient>(client =>
+{
+    var baseUrl = builder.Configuration["WorkItemsApi:BaseUrl"] ?? "http://localhost:5002/";
+    client.BaseAddress = new Uri(baseUrl);
+});
+
 // Configurar CORS para permitir conexiones desde el frontend.
 builder.Services.AddCors(options =>
 {
